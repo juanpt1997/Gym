@@ -2,12 +2,25 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ScheduledClass extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'instructor_id',
+        'class_type_id',
+        'date_time',
+    ];
+
+    protected function casts(): array
+    {
+        return
+            ['date_time' => 'datetime'];
+    }
 
     public function instructor()
     {
