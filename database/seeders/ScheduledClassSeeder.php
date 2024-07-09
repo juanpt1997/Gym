@@ -13,6 +13,9 @@ class ScheduledClassSeeder extends Seeder
      */
     public function run(): void
     {
-        ScheduledClass::factory()->count(10)->create();
+        ScheduledClass::factory()->count(3)->create([
+            'instructor_id' => 2
+        ]);
+        ScheduledClass::factory()->count(7)->create();
     }
 }

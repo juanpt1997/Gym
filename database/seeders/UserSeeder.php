@@ -16,18 +16,21 @@ class UserSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Juan',
-            'email' => 'tabaresricojuanpablo@gmail.com'
+            'email' => 'tabaresricojuanpablo@gmail.com',
+            'password' => '$2y$12$zfBlv3W4XcaWhlHg7DuPp.M/x1T.69xCrstnnKlFQTrnjY7GePGrK'
         ]);
         User::factory()->create([
             'name' => 'Ellie',
             'email' => 'ellie@gmail.com',
-            'role' => 'instructor'
+            'role' => 'instructor',
+            'password' => '$2y$12$zfBlv3W4XcaWhlHg7DuPp.M/x1T.69xCrstnnKlFQTrnjY7GePGrK'
         ]);
 
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'role' => 'admin'
+            'role' => 'admin',
+            'password' => '$2y$12$zfBlv3W4XcaWhlHg7DuPp.M/x1T.69xCrstnnKlFQTrnjY7GePGrK'
         ]);
 
         User::factory()->count(10)->create();
