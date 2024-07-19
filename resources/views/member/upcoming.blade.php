@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Book a class
+            Upcoming classes
         </h2>
     </x-slot>
 
@@ -15,8 +15,6 @@
                                 <div>
                                     <p class="text-2xl font-bold text-purple-700">{{ $class->classType->name }}</p> {{-- for each one we are making a query because of the relation, relations are lazy load --}}
                                     <p class="text-sm">{{ $class->instructor->name }}</p>
-                                    <p class="mt-2">{{ $class->classType->description }}</p>
-                                    <span class="text-slate-600 text-sm">{{ $class->classType->minutes }} minutes</span>
                                 </div>
                                 <div class="text-right flex-shrink-0">
                                     <p class="text-lg font-bold">{{ $class->date_time->format('g:i a') }}</p>
@@ -24,16 +22,16 @@
                                 </div>
                             </div>
                             <div class="mt-1 text-right">
-                                <form method="post" action="{{ route('booking.store') }}">
+                                <form method="post" action="{{ route('booking.destroy', $class->id) }}">
                                     @csrf
-                                    <input type="hidden" name="scheduled_class_id" value="{{ $class->id }}">
-                                    <x-primary-button class="px-3 py-1">Book</x-primary-button>
+                                    @method('delete')
+                                    <x-danger-button class="px-3 py-1">Cancel</x-danger-button>
                                 </form>
                             </div>
                         </div>
                     @empty
                         <div>
-                            <p>No classes are scheduled. Check back later</p>
+                            <p>You have no upcoming bookings</p>
                         </div>
                     @endforelse
                 </div>

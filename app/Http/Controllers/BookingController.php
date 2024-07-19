@@ -12,7 +12,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $bookings = auth()->user()->bookings()->where('date_time', '>', now())->get();
+
+        return view('member.upcoming', compact('bookings'));
     }
 
     /**
@@ -31,7 +33,9 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        auth()->user()->bookings()->attach($request->scheduled_class_id);
+
+        return redirect()->route('booking.index');
     }
 
     /**

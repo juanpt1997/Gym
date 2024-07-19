@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ClassType;
 use App\Models\ScheduledClass;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class ScheduledClassController extends Controller
