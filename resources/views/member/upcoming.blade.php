@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 max-w-2xl divide-y">
-                    @forelse ($scheduledClasses as $class)
+                    @forelse ($bookings as $class)
                         <div class="py-6">
                             <div class="flex gap-6 justify-between">
                                 <div>
@@ -25,7 +25,7 @@
                                 <form method="post" action="{{ route('booking.destroy', $class->id) }}">
                                     @csrf
                                     @method('delete')
-                                    <x-danger-button class="px-3 py-1">Cancel</x-danger-button>
+                                    <x-danger-button class="px-3 py-1" onclick="return confirm('Are you sure you want to cancel this class?')">Cancel</x-danger-button>
                                 </form>
                             </div>
                         </div>

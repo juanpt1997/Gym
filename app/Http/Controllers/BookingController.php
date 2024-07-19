@@ -67,6 +67,8 @@ class BookingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        auth()->user()->bookings()->detach($id);
+
+        return redirect()->route('booking.index');
     }
 }
