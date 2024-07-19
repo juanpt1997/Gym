@@ -6,6 +6,7 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.3/app
+        platform: linux/amd64
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -29,6 +30,7 @@ services:
             - selenium
     mysql:
         image: 'mysql/mysql-server:8.0'
+        platform: linux/amd64
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
@@ -53,6 +55,7 @@ services:
             timeout: 5s
     redis:
         image: 'redis:alpine'
+        platform: linux/amd64
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
@@ -68,6 +71,7 @@ services:
             timeout: 5s
     meilisearch:
         image: 'getmeili/meilisearch:latest'
+        platform: linux/amd64
         ports:
             - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
         environment:
@@ -87,6 +91,7 @@ services:
             timeout: 5s
     mailpit:
         image: 'axllent/mailpit:latest'
+        platform: linux/amd64
         ports:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
@@ -94,6 +99,7 @@ services:
             - sail
     selenium:
         image: selenium/standalone-chrome
+        platform: linux/amd64
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         volumes:
