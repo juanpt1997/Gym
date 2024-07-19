@@ -13,7 +13,9 @@
                         <div class="py-6">
                             <div class="flex gap-6 justify-between">
                                 <div>
-                                    <p class="text-2xl font-bold text-purple-700">{{ $class->classType->name }}</p>
+                                    <p class="text-2xl font-bold text-purple-700">{{ $class->classType->name }}</p> {{-- for each one we are making a query because of the relation, relations are lazy load --}}
+                                    <p class="text-sm">{{ $class->instructor->name }}</p>
+                                    <p class="mt-2">{{ $class->classType->description }}</p>
                                     <span class="text-slate-600 text-sm">{{ $class->classType->minutes }} minutes</span>
                                 </div>
                                 <div class="text-right flex-shrink-0">

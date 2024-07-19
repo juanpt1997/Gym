@@ -20,7 +20,9 @@ class BookingController extends Controller
      */
     public function create()
     {
-        $scheduledClasses = ScheduledClass::where('date_time', '>', now())->oldest()->get();
+        $scheduledClasses = ScheduledClass::where('date_time', '>', now())
+            ->with('classType', 'instructor') /* Eager loading */
+            ->oldest()->get();
         return view('member.book', compact('scheduledClasses'));
     }
 
