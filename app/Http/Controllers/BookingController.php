@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ScheduledClass;
+use Illuminate\Database\Eloquent\Builder;
 
 class BookingController extends Controller
 {
@@ -12,7 +13,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = auth()->user()->bookings()->where('date_time', '>', now())->get();
+        $bookings = auth()->user()->bookings()->upcoming()->get(); /* Replaced by the scope query */
 
         return view('member.upcoming', compact('bookings'));
     }
@@ -22,9 +23,13 @@ class BookingController extends Controller
      */
     public function create()
     {
-        $scheduledClasses = ScheduledClass::where('date_time', '>', now())
+        $scheduledClasses = ScheduledClass::upcoming() /* Replaced by the scope query */
             ->with('classType', 'instructor') /* Eager loading */
-            ->oldest()->get();
+            ->notBooked()
+            /* this way we are not showing a class that was already booked by the same member */
+            /* replaced by a scoped */
+            ->oldest()
+            ->get();
         return view('member.book', compact('scheduledClasses'));
     }
 
