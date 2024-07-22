@@ -13,7 +13,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = auth()->user()->bookings()->upcoming()->get(); /* Replaced by the scope query */
+        $bookings = auth()->user()->bookings()->upcoming()->oldest('date_time')->get(); /* Replaced by the scope query */
 
         return view('member.upcoming', compact('bookings'));
     }
@@ -28,7 +28,7 @@ class BookingController extends Controller
             ->notBooked()
             /* this way we are not showing a class that was already booked by the same member */
             /* replaced by a scoped */
-            ->oldest()
+            ->oldest('date_time')
             ->get();
         return view('member.book', compact('scheduledClasses'));
     }
