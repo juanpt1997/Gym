@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ClassCanceled;
+use App\Jobs\NotifyClassCanceledJob;
 use App\Mail\ClassCanceledMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -36,11 +37,22 @@ class NotifyClassCanceled
 
         $details = compact('className', 'classDateTime');
 
+        /* ===================================================
+           MAIL
+        ===================================================*/
         // $members->each(function($user) use ($details) {
         //     //send a mail
         //     Mail::to($user)->send(new ClassCanceledMail($details, $user));
         // });
 
-        Notification::send($members, new ClassCanceledNotification($details));
+        /* ===================================================
+           NOTIFICATION
+        ===================================================*/
+        // Notification::send($members, new ClassCanceledNotification($details));
+
+        /* ===================================================
+           JOBS
+        ===================================================*/
+        NotifyClassCanceledJob::dispatch($members, $details);
     }
 }
