@@ -45,7 +45,8 @@ class ScheduledClassPolicy
      */
     public function delete(User $user, ScheduledClass $scheduledClass): bool
     {
-        return $user->id === $scheduledClass->instructor_id; 
+        return $user->id === $scheduledClass->instructor_id
+            && $scheduledClass->date_time > now()->addHours(2);
     }
 
     /**

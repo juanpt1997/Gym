@@ -25,13 +25,12 @@ class InstructorTest extends TestCase
         $response->assertRedirectToRoute('instructor.dashboard');
 
         $this->followRedirects($response)->assertSeeText("Hey instructor!");
-
     }
 
     public function test_instructor_can_schedule_a_class()
     {
         //Given
-         $user = User::factory()->create(
+        $user = User::factory()->create(
             ['role' => 'instructor']
         );
         $this->seed(ClassTypeSeeder::class);
@@ -39,11 +38,11 @@ class InstructorTest extends TestCase
         //When
         $response = $this->actingAs($user)
             ->post('/instructor/schedule', [
-            'class_type_id' => ClassType::first()->id,
-            'date' => '2024-08-03',
-            'time' => '04:00'
-        ]);
-        
+                'class_type_id' => ClassType::first()->id,
+                'date' => '2024-08-03',
+                'time' => '04:00'
+            ]);
+
         //Then
 
         $this->assertDatabaseHas('scheduled_classes', [
@@ -55,8 +54,8 @@ class InstructorTest extends TestCase
 
     public function test_instructor_can_cancel_class()
     {
-         //Given
-         $user = User::factory()->create(
+        //Given
+        $user = User::factory()->create(
             ['role' => 'instructor']
         );
         $this->seed(ClassTypeSeeder::class);
@@ -68,11 +67,41 @@ class InstructorTest extends TestCase
 
         //When
         $response = $this
-                        ->actingAs($user)
-                        ->delete('/instructor/schedule/' . $scheduledClass->id);
-        
+            ->actingAs($user)
+            ->delete('/instructor/schedule/' . $scheduledClass->id);
+
         //Then
         $this->assertDatabaseMissing('scheduled_classes', [
+            'id' => $scheduledClass->id
+        ]);
+    }
+
+    public function test_cannot_cancel_class_less_than_two_hours_before()
+    {
+        //Given
+        $user = User::factory()->create(
+            ['role' => 'instructor']
+        );
+        $this->seed(ClassTypeSeeder::class);
+        $scheduledClass = ScheduledClass::create([
+            'instructor_id' => $user->id,
+            'class_type_id' => ClassType::first()->id,
+            'date_time' => now()->addHours(1)->minutes(0)->seconds(0)
+        ]);
+
+        // When
+        $response = $this->actingAs($user)
+            ->get('/instructor/schedule');
+        //Then
+        $response->assertDontSeeText('Cancel');
+
+        //When
+        $response = $this
+            ->actingAs($user)
+            ->delete('/instructor/schedule/' . $scheduledClass->id);
+
+        // Then
+        $this->assertDatabaseHas('scheduled_classes', [
             'id' => $scheduledClass->id
         ]);
     }
